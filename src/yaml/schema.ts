@@ -4,6 +4,7 @@ import { dump } from 'js-yaml';
 import { BBox, Polygon } from '@turf/helpers';
 import { Seed, seedsSchema } from '../schema/seeds';
 import { Coverage, coveragesSchema } from '../schema/coverages';
+import { json } from 'express';
 
 
 
@@ -35,11 +36,10 @@ export const wktSeed = async (layerName: string, fromZoomLevel: number, toZoomLe
     }
     const jsonSeeds = seedsSchema.parse(seed);
     const jsonCoverages = coveragesSchema.parse(coverage);
-    const doc = dump(jsonSeeds, { noArrayIndent: true });
-    const coverageDoc = dump(jsonCoverages, { noArrayIndent: true });
-    await fsp.writeFile('/media/shlomiko/data/mapproxy/mapproxy/test-seed.yaml', doc);
-    await fsp.writeFile('/media/shlomiko/data/mapproxy/mapproxy/test-coverage.yaml', coverageDoc);
-    console.log(doc);
+    const jsonFullContent = Object.assign(jsonSeeds, jsonCoverages);
+    const yamlSeed = dump(jsonFullContent, { noArrayIndent: true });
+    await fsp.writeFile('/media/shlomiko/data/mapproxy/mapproxy/test-seed.yaml', yamlSeed);
+    console.log(yamlSeed);
   } catch (err) {
     console.log(err);
   }
