@@ -13,5 +13,9 @@
       "url": "http://telemetryUrl/metrics",
       "interval": "3"
     }
+  },
+  "script": {
+    "mapproxyYamlFilePath": "/mapproxy/mapproxy.yaml",
+    "seedYamlFilePath": "/mapproxy/seed.yaml"
   }
 }
