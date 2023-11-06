@@ -60,7 +60,7 @@
             secretName: {{.Values.rasterCommon.ca.secretName }}
         {{- end }}
         {{- if .Values.rasterCommon.storage.fs.internalPvc.enabled }}
-        - name: sources-storage
+        - name: seed-storage
           persistentVolumeClaim:
             claimName: {{ .Values.rasterCommon.storage.fs.internalPvc.name }}
         {{- end }}        

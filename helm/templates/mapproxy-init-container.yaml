@@ -68,7 +68,7 @@
             {{- end }}
             {{- if eq (upper .Values.rasterCommon.storage.mapproxyConfigProvider) "FS" }}
             - mountPath: /configSource/mapproxy.yaml
-              name: sources-storage
+              name: seed-storage
               subPath: config/mapproxy.yaml
             {{- end }}
           ports:

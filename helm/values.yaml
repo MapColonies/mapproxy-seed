@@ -30,13 +30,12 @@ rasterCommon:
       useExternal: false
       externalSecretName: ""
   storage:
-    tilesStorageProvider: "FS"
     mapproxyConfigProvider: "DB"
     fs:
       internalPvc:
         enabled: true
         name: internal-pvc
-        tilesSubPath: tiles
+        subPath: 'raster' 
 
 environment: development
 initialDelaySeconds: 60

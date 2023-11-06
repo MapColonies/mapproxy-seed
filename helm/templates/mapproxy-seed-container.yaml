@@ -18,8 +18,8 @@
             name: mapproxy-config
             subPath: mapproxy.yaml
           {{- if .Values.rasterCommon.storage.fs.internalPvc.enabled}}
-          - mountPath: /layerSources
-            name: sources-storage
-            subPath: {{ .Values.rasterCommon.storage.fs.internalPvc.tilesSubPath }}
+          - mountPath: /seed
+            name: seed-storage
+            subPath: {{ .Values.rasterCommon.storage.fs.internalPvc.subPath }}
           {{- end }}
 {{- end }}
