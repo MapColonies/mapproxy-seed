@@ -56,6 +56,9 @@ image:
   repository: mapproxy
   tag: "latest"
 targetPort: 8080
+env:
+  mapproxyYamlFilePath: '/mapproxy/mapproxy.yaml'
+  seedYamlFilePath: '/mapproxy/seed.yaml'
 resources:
   enabled: true
   value:

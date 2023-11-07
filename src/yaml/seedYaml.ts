@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import config from 'config';
 import { writeFileSync, promises as fsp} from 'fs';
 import { dump } from 'js-yaml';
 import { Seed, seedsSchema } from '../schema/seeds.js';
@@ -13,7 +14,7 @@ export const createGeojsonTxtFile = (path: string, data: string): void => {
   }
 }
 
-export const createSeedYaml = async ({ cache, fromZoomLevel, toZoomLevel, wktFilePath }: SeedOptions): Promise<void> => {
+export const createSeedYaml = async ({ cache, fromZoomLevel, toZoomLevel, refreshBefore, wktFilePath }: SeedOptions): Promise<void> => {
   try {
     const coverageName = `${cache}-coverage`
     const seed: Seed = {
@@ -26,7 +27,7 @@ export const createSeedYaml = async ({ cache, fromZoomLevel, toZoomLevel, wktFil
             to: toZoomLevel
           },
           refresh_before: {
-            hours: 1
+            time: refreshBefore
           }
         }
       }
@@ -45,7 +46,8 @@ export const createSeedYaml = async ({ cache, fromZoomLevel, toZoomLevel, wktFil
     const jsonCoverages = coveragesSchema.parse(coverage);
     const jsonFullContent = Object.assign(jsonSeeds, jsonCoverages);
     const yamlSeed = dump(jsonFullContent, { noArrayIndent: true });
-    await fsp.writeFile('/mapproxy/test-seed.yaml', yamlSeed);
+    const seedYamlFilePath = config.get<string>('script.seedYamlFilePath');
+    await fsp.writeFile(seedYamlFilePath, yamlSeed);
   } catch (err) {
     console.log(err);
   }

@@ -4,10 +4,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { z } from 'zod';
 
-const atLeastOneDefined = (obj: Record<string, number>): boolean => {
-    return Object.values(obj).some(v => v !== undefined);
-}
-
 const validZoomLevels = (levels: SeedLevels): boolean => {
     return levels.from <= levels.to;
 }
@@ -16,10 +12,7 @@ const missingTimestampMessage = 'Must include at least one of those keys: weeks,
 const invalidZoomLevelsMessage = 'levels.from value can not bigger than levels.to';
 
 const refreshBeforeSchema = {
-    weeks: z.number(),
-    days: z.number(),
-    hours: z.number(),
-    minutes: z.number(),
+    time: z.string()
 };
 
 const levelsSchema = {
@@ -32,11 +25,11 @@ const seedTitleSchema = z.string();
 const seedContentSchema = z.object({
     caches: z.array(z.string()),
     coverages: z.array(z.string()),
-    refresh_before: z.object(refreshBeforeSchema).partial().refine(atLeastOneDefined, { message: missingTimestampMessage }),
+    refresh_before: z.object(refreshBeforeSchema),
     levels: z.object(levelsSchema).refine(validZoomLevels, { message: invalidZoomLevelsMessage })
 });
 
 const seedRecord = z.record(seedTitleSchema, seedContentSchema);
 
-export const seedsSchema = z.object({seeds: seedRecord});
+export const seedsSchema = z.object({ seeds: seedRecord });
 export type Seed = z.infer<typeof seedsSchema>;

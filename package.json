@@ -54,7 +54,8 @@
     "tsyringe": "^4.6.0",
     "yargs": "^17.7.2",
     "zod": "^3.22.4",
-    "zx": "^4.3.0"
+    "zx": "^4.3.0",
+    "moment": "^2.29.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.2.0",

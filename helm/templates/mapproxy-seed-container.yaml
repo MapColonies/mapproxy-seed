@@ -3,6 +3,10 @@
           image: {{ .cloudProviderDockerRegistryUrl }}{{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.imagePullPolicy }} 
           env:
+            - name: MAPPROXY_YAML_FILE_PATH
+              value: {{ .Values.env.mapproxyYamlFilePath }}
+            - name: SEED_YAML_FILE_PATH
+              value: {{ .Values.env.seedYamlFilePath }}
             {{- if .Values.rasterCommon.ca.secretName }}
             - name: REQUESTS_CA_BUNDLE
               value: {{ printf "%s/%s" .Values.rasterCommon.ca.path .Values.rasterCommon.ca.key | quote }}

@@ -19,5 +19,7 @@
       "url": "TELEMETRY_METRICS_URL",
       "interval": "TELEMETRY_METRICS_INTERVAL"
     }
-  }
+  },
+  "mapproxyYamlFilePath": "MAPPROXY_YAML_FILE_PATH",
+  "seedYamlFilePath": "SEED_YAML_FILE_PATH"
 }

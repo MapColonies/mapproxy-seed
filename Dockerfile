@@ -1,10 +1,9 @@
 # syntax=docker/dockerfile:1
 FROM ghcr.io/mapproxy/mapproxy/mapproxy:1.16.0
 
-ENV \
-    # Keeps Python from buffering stdout and stderr to avoid situations where
-    # the application crashes without emitting any logs due to buffering.
-    PYTHONUNBUFFERED=1
+# Keeps Python from buffering stdout and stderr to avoid situations where
+# the application crashes without emitting any logs due to buffering.
+ENV PYTHONUNBUFFERED=1    
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
@@ -26,22 +25,19 @@ RUN apt-get update && \
  apt-get install -y \
     nodejs npm
 
-RUN curl -L https://deb.nodesource.com/setup_18.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install -y nodejs
-# RUN apt install curl \ 
-#     curl -fsSL https://deb.nodesource.com/setup_18.x | bash - &&  \
-#     apt-get install -y nodejs
 
 RUN node -v
 
-
 WORKDIR /mapproxy
 
-COPY ./package*.json ./
+# COPY ./package*.json ./
 
-RUN npm install
-COPY . .
-RUN npm run build
+# RUN npm install
+# COPY . .
+# RUN npm run build
+# RUN cp dist/ .
 
 RUN mkdir -p ./settings ./cache_data && \
     chgrp -R 0 ./ && \
@@ -53,6 +49,15 @@ RUN --mount=type=bind,source=docker/patch/redis.py,target=redis.py \
     if [ "${PATCH_FILES}" = true ]; then \
         cp redis.py /usr/local/lib/python3.10/site-packages/mapproxy/cache/redis.py; \
     fi
+
+WORKDIR /usr/src/app
+
+COPY ./package*.json ./
+
+RUN npm install
+COPY . .
+RUN npm run build
+RUN cp -r dist/* ./
 
 # Creating user to simulate openshift.
 RUN useradd -ms /bin/bash user && usermod -a -G root user
