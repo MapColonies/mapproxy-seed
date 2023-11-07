@@ -9,7 +9,7 @@ const atLeastOneDefined = (obj: Record<string, number>): boolean => {
 }
 
 const validZoomLevels = (levels: SeedLevels): boolean => {
-    return levels.from < levels.to;
+    return levels.from <= levels.to;
 }
 
 const missingTimestampMessage = 'Must include at least one of those keys: weeks, days, hours, minutes values'

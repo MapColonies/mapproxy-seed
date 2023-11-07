@@ -1,7 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM ghcr.io/mapproxy/mapproxy/mapproxy:1.16.0
 
-
 ENV \
     # Keeps Python from buffering stdout and stderr to avoid situations where
     # the application crashes without emitting any logs due to buffering.
@@ -12,20 +11,37 @@ ENV \
 # Leverage a bind mount to requirements.txt to avoid having to copy them into
 # into this layer.
 RUN --mount=type=cache,target=/root/.cache/pip \
-    --mount=type=bind,source=requirements.txt,target=requirements.txt \
+    --mount=type=bind,source=docker/requirements.txt,target=docker/requirements.txt \
     # install uwsgi dependencies
     apt update && \
     apt -y install --no-install-recommends gcc && \
     # install mapproxy dependencies
-    python -m pip install -r requirements.txt && \
+    python -m pip install -r docker/requirements.txt && \
     pip cache purge && \
     apt-get -y update && \
     apt-get install -y \
-    gettext
+    gettext  
+
+RUN apt-get update && \
+ apt-get install -y \
+    nodejs npm
+
+RUN curl -L https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get install -y nodejs
+# RUN apt install curl \ 
+#     curl -fsSL https://deb.nodesource.com/setup_18.x | bash - &&  \
+#     apt-get install -y nodejs
+
+RUN node -v
+
 
 WORKDIR /mapproxy
 
-COPY /scripts ./
+COPY ./package*.json ./
+
+RUN npm install
+COPY . .
+RUN npm run build
 
 RUN mkdir -p ./settings ./cache_data && \
     chgrp -R 0 ./ && \
@@ -33,7 +49,7 @@ RUN mkdir -p ./settings ./cache_data && \
 
 # Patch mapproxy source code.
 ARG PATCH_FILES=true
-RUN --mount=type=bind,source=patch/redis.py,target=redis.py \
+RUN --mount=type=bind,source=docker/patch/redis.py,target=redis.py \
     if [ "${PATCH_FILES}" = true ]; then \
         cp redis.py /usr/local/lib/python3.10/site-packages/mapproxy/cache/redis.py; \
     fi
@@ -46,4 +62,4 @@ USER user
 EXPOSE 8080
 
 # Run the application.
-ENTRYPOINT ["bash", "-c", "./docker-entrypoint.sh"]
+ENTRYPOINT ["bash", "-c", "docker/scripts/docker-entrypoint.sh"]
