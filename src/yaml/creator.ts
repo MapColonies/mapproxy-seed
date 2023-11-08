@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import config from 'config';
 import { writeFileSync, promises as fsp} from 'fs';
+import config from 'config';
 import { dump } from 'js-yaml';
-import { Seed, seedsSchema } from '../schema/seeds.js';
-import { Coverage, coveragesSchema } from '../schema/coverages.js';
+import { Seed, seedsSchema } from '../schemas/seeds.js';
+import { Coverage, coveragesSchema } from '../schemas/coverages.js';
 import { SeedOptions } from '../seed.js';
 
 export const createGeojsonTxtFile = (path: string, data: string): void => {

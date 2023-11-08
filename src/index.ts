@@ -1,10 +1,8 @@
 #!/usr/bin/env node
-import { cliBuilder } from './cliBuilder';
+import { runCli } from './cliBuilder';
 
 try {
-  void cliBuilder();
+  void runCli();
 } catch (error) {
   console.log(error);
 }
-
-console.log('index.ts')
