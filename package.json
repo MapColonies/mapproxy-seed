@@ -38,7 +38,6 @@
     }
   },
   "dependencies": {
-    "@turf/turf": "^6.5.0",
     "@types/pino-pretty": "^5.0.0",
     "config": "^3.3.9",
     "js-yaml": "^4.1.0",
