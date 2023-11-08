@@ -1,0 +1,41 @@
+{{- define "mapproxy-seed-chart.mapproxy-seed-container" }}
+        - name: mapproxy-seed
+          image: {{ .cloudProviderDockerRegistryUrl }}{{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }} 
+          env:
+            {{- if eq (upper .Values.rasterCommon.storage.tilesStorageProvider) "S3" }}
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.rasterCommon.storage.s3.secretName }}
+                  key: accessKeyId
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.rasterCommon.storage.s3.secretName }}
+                  key: secretAccessKey
+            {{- end }}
+            - name: MAPPROXY_YAML_FILE_PATH
+              value: {{ .Values.env.mapproxyYamlFilePath }}
+            - name: SEED_YAML_FILE_PATH
+              value: {{ .Values.env.seedYamlFilePath }}
+            {{- if .Values.rasterCommon.ca.secretName }}
+            - name: REQUESTS_CA_BUNDLE
+              value: {{ printf "%s/%s" .Values.rasterCommon.ca.path .Values.rasterCommon.ca.key | quote }}
+            - name: NODE_EXTRA_CA_CERTS
+              value: {{ printf "%s/%s" .Values.rasterCommon.ca.path .Values.rasterCommon.ca.key | quote }}
+            {{- end }}
+          {{- if .resources.enabled }}
+          resources:
+            {{- toYaml .resources.value | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+          - mountPath: /mapproxy/mapproxy.yaml
+            name: mapproxy-config
+            subPath: mapproxy.yaml
+          {{- if .Values.rasterCommon.storage.fs.internalPvc.enabled}}
+          - mountPath: /seed
+            name: seed-storage
+            subPath: {{ .Values.rasterCommon.storage.fs.internalPvc.subPath }}
+          {{- end }}
+{{- end }}
