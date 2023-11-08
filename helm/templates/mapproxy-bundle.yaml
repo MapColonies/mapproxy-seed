@@ -2,6 +2,7 @@
   {{- $cloudProviderDockerRegistryUrl := include "mapproxy-seed.cloudProviderDockerRegistryUrl" . -}}
   {{- $cloudProviderImagePullSecretName := include "mapproxy-seed.cloudProviderImagePullSecretName" . -}}
   {{- $postgresSecretName := ternary .Values.rasterCommon.db.secrets.externalSecretName (printf "%s%s" .Release.Name "-postgres-secret") .Values.rasterCommon.db.secrets.useExternal }}
+  {{- $s3SecretName := ternary .Values.rasterCommon.storage.s3.secretName (printf "%s%s" .Release.Name  "-s3-secret") (ne .Values.rasterCommon.storage.s3.secretName "") }}
   replicas: {{ .replicaCount }}
   selector:
     matchLabels:

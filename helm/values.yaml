@@ -31,11 +31,17 @@ rasterCommon:
       externalSecretName: ""
   storage:
     mapproxyConfigProvider: "DB"
+    tilesStorageProvider: S3
     fs:
       internalPvc:
         enabled: true
         name: internal-pvc
         subPath: 'raster' 
+    s3:
+      endpointUrl: "10.8.0.9:9000"
+      tilesBucket: "libot-integration"
+      sslEnabled: false
+      secretName: "s3-secret"
 
 environment: development
 initialDelaySeconds: 60

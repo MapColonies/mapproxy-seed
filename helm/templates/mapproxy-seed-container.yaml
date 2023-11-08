@@ -3,6 +3,18 @@
           image: {{ .cloudProviderDockerRegistryUrl }}{{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.imagePullPolicy }} 
           env:
+            {{- if eq (upper .Values.rasterCommon.storage.tilesStorageProvider) "S3" }}
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.rasterCommon.storage.s3.secretName }}
+                  key: accessKeyId
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.rasterCommon.storage.s3.secretName }}
+                  key: secretAccessKey
+            {{- end }}
             - name: MAPPROXY_YAML_FILE_PATH
               value: {{ .Values.env.mapproxyYamlFilePath }}
             - name: SEED_YAML_FILE_PATH
