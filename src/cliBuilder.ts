@@ -31,7 +31,7 @@ export const runCli = async () =>
       },
       'skip-uncached': {
         alias: 's',
-        describe: 'skip uncached tiles, seeds or refresh only cached tiles',
+        describe: 'skip uncached tiles, seeds or refresh only cached tiles, required - default to "true" if value is not given',
         type: 'boolean',
         demandOption: true,
       },

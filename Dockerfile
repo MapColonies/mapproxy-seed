@@ -25,19 +25,11 @@ RUN apt-get update && \
  apt-get install -y \
     nodejs npm
 
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 RUN apt-get install -y nodejs
-
-RUN node -v
 
 WORKDIR /mapproxy
 
-# COPY ./package*.json ./
-
-# RUN npm install
-# COPY . .
-# RUN npm run build
-# RUN cp dist/ .
 
 RUN mkdir -p ./settings ./cache_data && \
     chgrp -R 0 ./ && \
