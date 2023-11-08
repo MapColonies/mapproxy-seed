@@ -14,9 +14,11 @@ export const createGeojsonTxtFile = (path: string, data: string): void => {
   }
 }
 
-export const createSeedYaml = async ({ cache, fromZoomLevel, toZoomLevel, refreshBefore, wktFilePath }: SeedOptions): Promise<void> => {
+export const createSeedYamlFile = async ({ cache, fromZoomLevel, toZoomLevel, refreshBefore, wktFilePath }: SeedOptions): Promise<void> => {
   try {
-    const coverageName = `${cache}-coverage`
+    const seedYamlFilePath = config.get<string>('seedYamlFilePath');
+    const coverageName = `${cache}-coverage`;
+    
     const seed: Seed = {
       seeds: {
         [cache]: {
@@ -45,8 +47,8 @@ export const createSeedYaml = async ({ cache, fromZoomLevel, toZoomLevel, refres
     const jsonSeeds = seedsSchema.parse(seed);
     const jsonCoverages = coveragesSchema.parse(coverage);
     const jsonFullContent = Object.assign(jsonSeeds, jsonCoverages);
+
     const yamlSeed = dump(jsonFullContent, { noArrayIndent: true });
-    const seedYamlFilePath = config.get<string>('script.seedYamlFilePath');
     await fsp.writeFile(seedYamlFilePath, yamlSeed);
   } catch (err) {
     console.log(err);
