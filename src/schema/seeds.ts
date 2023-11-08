@@ -8,9 +8,6 @@ const validZoomLevels = (levels: SeedLevels): boolean => {
     return levels.from <= levels.to;
 }
 
-const missingTimestampMessage = 'Must include at least one of those keys: weeks, days, hours, minutes values'
-const invalidZoomLevelsMessage = 'levels.from value can not bigger than levels.to';
-
 const refreshBeforeSchema = {
     time: z.string()
 };
@@ -22,6 +19,7 @@ const levelsSchema = {
 
 const seedTitleSchema = z.string();
 
+const invalidZoomLevelsMessage = 'levels.from value can not bigger than levels.to';
 const seedContentSchema = z.object({
     caches: z.array(z.string()),
     coverages: z.array(z.string()),
