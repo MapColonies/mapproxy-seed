@@ -3,7 +3,6 @@ import { $ } from 'zx';
 import { createSeedYamlFile } from './yaml/creator';
 import { validateSupportedCache } from './common/validations';
 
-
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type SeedOptions = {
   cache: string;
