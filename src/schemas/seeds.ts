@@ -28,6 +28,7 @@ const invalidZoomLevelsMessage = 'levels.from value can not bigger than levels.t
 const seedContentSchema = z.object({
   caches: z.array(z.string()),
   coverages: z.array(z.string()),
+  grids: z.array(z.string()),
   refresh_before: z.object(refreshBeforeSchema),
   levels: z.object(levelsSchema).refine(validZoomLevels, { message: invalidZoomLevelsMessage }),
 });
