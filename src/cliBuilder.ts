@@ -4,7 +4,7 @@ import { SeedOptions, executeSeed } from './seed';
 import { fileExists, isValidDateFormat, zoomComparison } from './common/validations';
 
 // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-export const runCli = async () =>
+export const runCli = async (): Promise<Record<string, unknown>> =>
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   argv(process.argv.slice(2))
     .options({
