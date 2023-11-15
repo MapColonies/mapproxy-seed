@@ -19,7 +19,7 @@ const refreshBeforeSchema = {
 
 const levelsSchema = {
   from: z.number().min(0).max(23),
-  to: z.number(),
+  to: z.number().min(0).max(23),
 };
 
 const seedTitleSchema = z.string();
