@@ -29,7 +29,6 @@ RUN --mount=type=bind,source=docker/patch/redis.py,target=redis.py \
         cp redis.py /usr/local/lib/python3.10/site-packages/mapproxy/cache/redis.py; \
     fi
 
-# COPY --from=build /tmp/buildApp/* ./
 COPY --from=build /tmp/buildApp/mapproxy-seed-cli /usr/bin/mapproxy-seed-cli
 
 # Run the application.

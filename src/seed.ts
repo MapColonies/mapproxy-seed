@@ -19,7 +19,7 @@ export const executeSeed = async (options: SeedOptions): Promise<void> => {
   const seedYamlFilePath = process.env.SEED_YAML_FILE_PATH ?? '/mapproxy/seed.yaml';
   const flags: string[] = [];
 
-  console.log('validating supported cache.');
+  console.log(`reading and validating supported cache from mapproxy yaml on path: ${mapproxyYamlFilePath}.`);
   validateSupportedCache(mapproxyYamlFilePath, options.cache);
   console.log(`creating seed yaml file on path: ${seedYamlFilePath}.`);
   await createSeedYamlFile(options, seedYamlFilePath);
@@ -29,6 +29,6 @@ export const executeSeed = async (options: SeedOptions): Promise<void> => {
     flags.push('--skip-uncached');
   }
 
-  console.log(`running seed commad.`);
+  console.log(`running seed command.`);
   await $`mapproxy-seed -f ${mapproxyYamlFilePath} -s ${seedYamlFilePath} --seed ${options.cache} --concurrency ${options.concurrency} ${flags}`;
 };
