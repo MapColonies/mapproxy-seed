@@ -5,9 +5,9 @@ import moment from 'moment';
 enum CacheType {
   S3 = 's3',
   REDIS = 'redis',
-  GPKG = 'geopackage'
- }
- 
+  GPKG = 'geopackage',
+}
+
 type MapproxyCache = Record<'caches', Record<string, Record<'cache', Record<'type', string>>>>;
 
 const throwError = (message: string): void => {
@@ -31,11 +31,13 @@ export const isValidDateFormat = (dateString: string): boolean | void => {
 };
 
 export const validateSupportedCache = (mapproxyYamlFilePath: string, cache: string): void => {
-  const mapproxyYamlContent = readFileSync(mapproxyYamlFilePath, {encoding: 'utf8'});
+  const mapproxyYamlContent = readFileSync(mapproxyYamlFilePath, { encoding: 'utf8' });
   const mapproxyCache = load(mapproxyYamlContent) as MapproxyCache;
 
   const cacheType = mapproxyCache.caches[cache].cache.type;
   if (cacheType !== CacheType.REDIS) {
-    throw new Error(`Invalid cache: ${cache}, seed operation can only run on '${CacheType.REDIS}' cache type, please check again your '--cache' input!`)
+    throw new Error(
+      `Invalid cache: ${cache}, seed operation can only run on '${CacheType.REDIS}' cache type, please check again your '--cache' input!`
+    );
   }
-}
+};

@@ -14,7 +14,7 @@ export const createGeojsonTxtFile = (path: string, data: string): void => {
   }
 };
 
-export const createSeedYamlFile = async ({ cache, grid, fromZoomLevel, toZoomLevel, refreshBefore, wktFilePath  }: SeedOptions): Promise<void> => {
+export const createSeedYamlFile = async ({ cache, grid, fromZoomLevel, toZoomLevel, refreshBefore, wktFilePath }: SeedOptions): Promise<void> => {
   try {
     const seedYamlFilePath = config.get<string>('seedYamlFilePath');
     const coverageName = `${cache}-coverage`;

@@ -20,7 +20,6 @@ export const executeSeed = async (options: SeedOptions): Promise<void> => {
   const seedYamlFilePath = config.get<string>('seedYamlFilePath');
   const flags: string[] = [];
 
-
   validateSupportedCache(mapproxyYamlFilePath, options.cache);
   await createSeedYamlFile(options);
 

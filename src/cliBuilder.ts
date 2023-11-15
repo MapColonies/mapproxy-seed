@@ -8,12 +8,12 @@ export const runCli = async () =>
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   argv(process.argv.slice(2))
     .options({
-      'cache': {
+      cache: {
         describe: 'name of the mapproxy cached layer',
         type: 'string',
         demandOption: true,
       },
-      'grid': {
+      grid: {
         alias: 'g',
         describe: 'name of the requested grid',
         type: 'string',
@@ -46,12 +46,12 @@ export const runCli = async () =>
         type: 'string',
         demandOption: true,
       },
-      'concurrency': {
+      concurrency: {
         alias: 'c',
         describe: 'number of concurrent seed worker.',
         type: 'number',
-        demandOption: true
-      }
+        demandOption: true,
+      },
     })
     .check((argv) => {
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -67,7 +67,7 @@ export const runCli = async () =>
         refreshBefore: args['refresh-before'],
         wktFilePath: args['geojson-file'],
         skipUncached: args['skip-uncached'],
-        concurrency: args['concurrency']
+        concurrency: args['concurrency'],
       };
       await executeSeed(options);
     })
