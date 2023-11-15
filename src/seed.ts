@@ -1,4 +1,3 @@
-import config from 'config';
 import { $ } from 'zx';
 import { createSeedYamlFile } from './yaml/creator';
 import { validateSupportedCache } from './common/validations';
@@ -16,20 +15,20 @@ export type SeedOptions = {
 };
 
 export const executeSeed = async (options: SeedOptions): Promise<void> => {
-  const mapproxyYamlFilePath = config.get<string>('mapproxyYamlFilePath');
-  const seedYamlFilePath = config.get<string>('seedYamlFilePath');
+  const mapproxyYamlFilePath = process.env.MAPPROXY_YAML_FILE_PATH ?? '/mapproxy/mapproxy.yaml';
+  const seedYamlFilePath = process.env.SEED_YAML_FILE_PATH ?? '/mapproxy/seed.yaml';
   const flags: string[] = [];
 
-  console.log('validating supported cache.');
+  console.log(`reading and validating supported cache from mapproxy yaml on path: ${mapproxyYamlFilePath}.`);
   validateSupportedCache(mapproxyYamlFilePath, options.cache);
   console.log(`creating seed yaml file on path: ${seedYamlFilePath}.`);
-  await createSeedYamlFile(options);
+  await createSeedYamlFile(options, seedYamlFilePath);
 
   if (options.skipUncached) {
     console.log('requested to skip uncached tiles.');
     flags.push('--skip-uncached');
   }
 
-  console.log(`running seed commad.`);
+  console.log(`running seed command.`);
   await $`mapproxy-seed -f ${mapproxyYamlFilePath} -s ${seedYamlFilePath} --seed ${options.cache} --concurrency ${options.concurrency} ${flags}`;
 };

@@ -1,5 +1,5 @@
 {
-  "name": "mapproxy-seed",
+  "name": "mapproxy-seed-cli",
   "version": "1.1.0",
   "description": "mapproxy-seed CLI",
   "main": "./src/index.ts",
@@ -37,8 +37,10 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
+  "bin": {
+    "mapproxy-seed-cli": "./dist/index.js"
+  },
   "dependencies": {
-    "config": "^3.3.9",
     "js-yaml": "^4.1.0",
     "moment": "^2.29.4",
     "reflect-metadata": "^0.1.13",

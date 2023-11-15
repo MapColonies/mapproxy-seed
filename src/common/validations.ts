@@ -31,13 +31,17 @@ export const isValidDateFormat = (dateString: string): boolean | void => {
 };
 
 export const validateSupportedCache = (mapproxyYamlFilePath: string, cache: string): void => {
-  const mapproxyYamlContent = readFileSync(mapproxyYamlFilePath, { encoding: 'utf8' });
-  const mapproxyCache = load(mapproxyYamlContent) as MapproxyCache;
+  try {
+    const mapproxyYamlContent = readFileSync(mapproxyYamlFilePath, { encoding: 'utf8' });
+    const mapproxyCache = load(mapproxyYamlContent) as MapproxyCache;
 
-  const cacheType = mapproxyCache.caches[cache].cache.type;
-  if (cacheType !== CacheType.REDIS) {
-    throw new Error(
-      `Invalid cache: ${cache}, seed operation can only run on '${CacheType.REDIS}' cache type, please check again your '--cache' input!`
-    );
+    const cacheType = mapproxyCache.caches[cache].cache.type;
+    if (cacheType !== CacheType.REDIS) {
+      throw new Error(
+        `Invalid cache: ${cache}, seed operation can only run on '${CacheType.REDIS}' cache type, please check again your '--cache' input!`
+      );
+    }
+  } catch (error) {
+    throwError(`unable to validate supported cache type for cache: ${cache}, ${(error as Error).message}  `);
   }
 };
