@@ -1,6 +1,6 @@
 {
   "name": "mapproxy-seed-cli",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "mapproxy-seed CLI",
   "main": "./src/index.ts",
   "scripts": {

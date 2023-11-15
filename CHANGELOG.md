@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/MapColonies/mapproxy-seed/compare/v1.1.0...v1.2.0) (2023-11-15)
+
+
+### Features
+
+* concurrency seed, grid & cache type validation support ([b7c5d30](https://github.com/MapColonies/mapproxy-seed/commit/b7c5d3076f3b9b83c19e4ff2148c35f6e971c7a5))
+
+
+### Bug Fixes
+
+* added logs to get more information ([516d79e](https://github.com/MapColonies/mapproxy-seed/commit/516d79e802bac47278dd7a082e96d2c0e8656b3f))
+* added min and max values 'toZoomLevel' ([29931ba](https://github.com/MapColonies/mapproxy-seed/commit/29931baaba102a75e900b424718d90820bb5f222))
+* added missing return type to func ([67b9988](https://github.com/MapColonies/mapproxy-seed/commit/67b998872fa96e1a6d4b8a7a26fd016945d24bf7))
+* pr issures ([16f2084](https://github.com/MapColonies/mapproxy-seed/commit/16f208437a53228a18be30bd6dd33ac1b5cd525e))
+* removed unnecessary spaces and EOF ([d70598d](https://github.com/MapColonies/mapproxy-seed/commit/d70598dfcd73f649ff3a3b25213b0bab9672961a))
+* removed unused interface + fix linter ([066c5c5](https://github.com/MapColonies/mapproxy-seed/commit/066c5c5fb237f1674ae5e2379624afd67d205700))
+
 ## 1.1.0 (2023-11-08)
 
 
