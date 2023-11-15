@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { writeFileSync, promises as fsp } from 'fs';
-import config from 'config';
 import { dump } from 'js-yaml';
 import { Seed, seedsSchema } from '../schemas/seeds.js';
 import { Coverage, coveragesSchema } from '../schemas/coverages.js';
@@ -14,9 +13,11 @@ export const createGeojsonTxtFile = (path: string, data: string): void => {
   }
 };
 
-export const createSeedYamlFile = async ({ cache, grid, fromZoomLevel, toZoomLevel, refreshBefore, wktFilePath }: SeedOptions): Promise<void> => {
+export const createSeedYamlFile = async (
+  { cache, grid, fromZoomLevel, toZoomLevel, refreshBefore, wktFilePath }: SeedOptions,
+  seedYamlFilePath: string
+): Promise<void> => {
   try {
-    const seedYamlFilePath = config.get<string>('seedYamlFilePath');
     const coverageName = `${cache}-coverage`;
 
     const seed: Seed = {
@@ -51,7 +52,7 @@ export const createSeedYamlFile = async ({ cache, grid, fromZoomLevel, toZoomLev
 
     const yamlSeed = dump(jsonFullContent, { noArrayIndent: true });
     await fsp.writeFile(seedYamlFilePath, yamlSeed);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    throw new Error(`unable to create seed.yaml file: ${(error as Error).message}`);
   }
 };
