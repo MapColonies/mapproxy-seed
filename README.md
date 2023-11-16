@@ -45,4 +45,5 @@ Command: `seed` [options]
 There are 2 main envs you can use:
 
 `MAPPROXY_YAML_FILE_PATH` - path to the mapproxy.yaml file, default to '/mapproxy/mapproxy.yaml'.
+
 `SEED_YAML_FILE_PATH` - path to the seed.yaml file, default to '/mapproxy/seed.yaml'.
